@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load blog_tags %}
+{% load humanize %}
 
 {% block content %}
   <!-- start banner Area -->
@@ -119,7 +120,7 @@
               <p class="excert">   
                 {{post.content|truncatechars:150}}
               </p>
-              <a href="" class="primary-btn">View More</a>
+              <a href="{% url 'blog:single' pid=post.id %}" class="primary-btn">View More</a>
             </div>
           </div>
           {% endfor %}
