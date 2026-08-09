@@ -42,9 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'robots',
     'debug_toolbar',
+    'taggit',
     'django_extensions',
     'website.apps.WebsiteConfig',
-    'blog'
+    'blog',
 ]
 
 # sites framework

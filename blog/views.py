@@ -7,12 +7,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def blog_view(request, **kwargs):
     posts = Post.objects.filter(status=1)
     
-    if kwargs.get('cat_name'):
+    if kwargs.get('cat_name') != None:
         posts = posts.filter(category__name__iexact = kwargs['cat_name'])
     
-    if kwargs.get('author_username'):
+    if kwargs.get('author_username')!= None:
         # when we want to point out to a field in another table that it relates to my element, 
         posts = posts.filter(author__username__iexact = kwargs['author_username'])
+       
+    if kwargs.get('tag_name') != None:
+            posts = posts.filter(tags__name__in = [kwargs['tag_name']])
+            pass
     
     # Paginator
     posts =  Paginator(posts, 3)
