@@ -1,3 +1,4 @@
+{% load humanize %}
 {% load blog_tags %}
 
 <!DOCTYPE html>
@@ -8,12 +9,19 @@
     <title>Test</title>
 </head>
 <body>
-    <form action="{% url 'website:test' %}" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
+    <p>{{1|apnumber}}</p>
+    <p>{{9|apnumber}}</p>
+    <p>{{10|apnumber}}</p>
+
+    <h4>{{334343434|intcomma}}</h4>
+
+     
+
+
+    {% for post in posts %}
+        {{post.published_date|naturalday}} <br>
+        {{post.created_date|naturaltime}}
         
-         
-        <button type="submit">submit</button>
-    </form>
+    {% endfor %}
 </body>
 </html>
