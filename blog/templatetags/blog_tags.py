@@ -22,7 +22,7 @@ def snippet(value,arg=20):
 # ---Main fun---
 @register.inclusion_tag('blog/blog-latest-posts.html')
 def latestposts(arg = 3):
-    posts = Post.objects.filter(status=1).order_by('published_date')[:arg]
+    posts = Post.objects.filter(status=1).order_by('-published_date')[:arg]
     return {'posts': posts}
 
 @register.inclusion_tag('blog/blog-post-categories.html')
@@ -33,7 +33,7 @@ def postcategories():
     cat_dict = {}
     
     for name in categories:
-        # to avoid shoeing tags with 0 obj
+        # to avoid showing tags with 0 obj
         if posts.filter(category=name).count():
             cat_dict[name] = posts.filter(category=name).count()
     return {'categories': cat_dict}

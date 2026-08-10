@@ -40,7 +40,7 @@ def blog_single(request, pid):
     
     return render(request, 'blog/blog-single.html', context)
 
-def blog_category(request, cat_name):
+''' def blog_category(request, cat_name):
     posts = Post.objects.filter(status=1)
     
     # __iexact is case-insensitive,
@@ -48,7 +48,7 @@ def blog_category(request, cat_name):
     posts = posts.filter(category__name__iexact=cat_name)
 
     context = {'posts': posts}
-    return render(request, 'blog/blog-home.html', context)
+    return render(request, 'blog/blog-home.html', context) '''
 
 def blog_search(request):
     posts = Post.objects.filter(status=1)
