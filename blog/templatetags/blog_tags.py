@@ -1,6 +1,5 @@
 from django import template
-from blog.models import Post
-from blog.models import Category
+from blog.models import Post,Comment, Category
 
 register = template.Library()
 
@@ -20,6 +19,14 @@ def snippet(value,arg=20):
     return value[:arg] + '...'
 
 # ---Main fun---
+@register.simple_tag(name='comments_count')
+def function(pid):
+    # we dont need to write line below, bcz we're sure that the post exsists and only getting pid is enough.
+    # --> post = Post.objects.get(pk=pid)
+    comments = Comment.objects.filter(post=pid, approved=True).count()
+    return comments
+    
+
 @register.inclusion_tag('blog/blog-latest-posts.html')
 def latestposts(arg = 3):
     posts = Post.objects.filter(status=1).order_by('-published_date')[:arg]
