@@ -61,8 +61,3 @@ body {
 .form-signin .text-muted {
   color: white !important;
 }
-
-.form-signin input::placeholder {
-  color: white;
-  opacity: 1;
-}
