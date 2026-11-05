@@ -8,6 +8,8 @@ from django.urls import reverse
 
 def login_view(request):
     if not request.user.is_authenticated:
+        next_url = request.POST.get('next') or request.GET.get('next')
+        
         if request.method == 'POST':
             form = AuthenticationForm(request=request, data=request.POST)
             if form.is_valid():
@@ -16,11 +18,15 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                
+                if next_url:
+                    return redirect(next_url)
+
                 return redirect('/')
                 
         # django built in forms
         form = AuthenticationForm()
-        context = {'form':form}
+        context = {'form':form, 'next': next_url}
     else:
         return redirect('/')
     return render(request, 'accounts/login.html',context)

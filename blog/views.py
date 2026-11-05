@@ -43,7 +43,7 @@ def blog_single(request, pid):
     
     if post.login_require and not request.user.is_authenticated:
         # The redirect itself was fine, though! (I mean return redirect(bluh bluh bluhh))
-        return HttpResponseRedirect(reverse('accounts:login'))
+       return HttpResponseRedirect(reverse('accounts:login') + f'?next={request.path}')
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
