@@ -1,8 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from blog.models import Post, Comment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from blog.forms import CommentForm
 from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -36,16 +38,23 @@ def blog_view(request, **kwargs):
     return render(request, 'blog/blog-home.html', context)
 
 def blog_single(request, pid):
+    posts = Post.objects.filter(status=1)
+    post = get_object_or_404(posts , pk=pid)
+    
+    if post.login_require and not request.user.is_authenticated:
+        # The redirect itself was fine, though! (I mean return redirect(bluh bluh bluhh))
+        return HttpResponseRedirect(reverse('accounts:login'))
+
     if request.method == 'POST':
         form = CommentForm(request.POST)
+        
         if form.is_valid:
             form.save()
             messages.add_message(request, messages.SUCCESS,'your comment submitted successfully!')
         else:
             messages.add_message(request, messages.ERROR,'your comment didnt submitted!')
             
-    posts = Post.objects.filter(status=1)
-    post = get_object_or_404(posts , pk=pid)
+    
     comments = Comment.objects.filter(post=post.id, approved=True)    
     form = CommentForm()
     context = {'post':post, 'comments':comments, 'form':form}
